@@ -1,0 +1,75 @@
+@charset "utf-8";
+/*
+* XJJ OAUI - v8.1 - 2016-11-9
+* http:/192.168.0.43/assets/custom/oa-ui/8.1/css/oaui.css
+* By Hanshiyan
+* Modify the time : 2016-12-28
+*/
+
+/*-------------reset--------------*/
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  font-size: 16px;  
+  margin: 0;
+  padding: 0;
+}
+a,img,p,ul,li,input,h1,h2,h3 {
+  margin: 0; 
+  padding: 0;
+}
+ul,li { list-style: none;}
+input,button,select,textarea {
+  outline:none; 
+  border:none;
+  font-family: "Microsoft YaHei";
+}
+a {
+  text-decoration: none; 
+  border: none; 
+  outline: none;
+}
+a:focus {
+  outline: none;
+}
+img {
+  border:none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+td,
+th {
+  padding: 0;
+}
+	
+/* float and clear */
+.leftfloat {
+  float: left;
+}
+.rightfloat {
+  float: right;
+}
+.clearfix {
+  clear: both;
+}
+.parent {
+  zoom: 1;
+}
+.parent:after {
+  display: block;
+  height: 0;
+  clear: both;
+  content: "";
+  visibility: hidden;
+}
+	
+/* Single-line text ellipsis */
+.omit {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

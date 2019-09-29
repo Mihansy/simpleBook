@@ -1,20 +1,24 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">发现</router-link> |
-      <router-link to="/attention">关注</router-link>
-			<router-link to="/message">消息</router-link>
-    </div>
-    <router-view/>
-  </div>
+	<div id="app">
+		<Header></Header>
+		<router-view></router-view>
+	</div>
 </template>
 
 <script>
-	
+	import Header from './components/Header.vue'
+
+	export default {
+		name: 'app',
+		components: {
+			Header
+		}
+	}
 </script>
 
 <style lang="scss">
 	@import '@/assets/scss/variable.scss';
+
 	#app {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
@@ -23,14 +27,18 @@
 		color: $text-night;
 		background-color: $bodyBgc-night;
 	}
+
 	#nav {
 		padding: 30px;
+
 		a {
 			font-weight: bold;
 			color: $text-night;
+
 			&.router-link-exact-active {
 				color: #42b983;
 			}
 		}
 	}
-</style>
+
+	<style>
