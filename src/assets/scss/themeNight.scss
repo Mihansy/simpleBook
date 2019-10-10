@@ -1,0 +1,116 @@
+@import './variable.scss';
+.theme-night {
+	color: $text-night;
+	background-color: $bodyBgc-night;
+	a {
+		color: $text-night;
+	}
+	.header {
+		border-bottom: 1px solid #2f2f2f;
+	}
+	.nav {
+		a:hover {
+			background-color: $hoverBgc-night;
+		}
+	}
+	.search {
+		input {
+			color: $text-night;
+			border: 1px solid #4f4f4f;
+			background: #4f4f4f;
+		}
+		.tipbox {
+			background-color: $bodyBgc-night;
+			&:before {
+				border-bottom-color: $bodyBgc-night !important;
+			}
+			.search-trending {
+				border-bottom: 1px solid #2f2f2f;
+				.search-trending-header {
+					span,a {
+						color: #969696;
+					}
+				}
+				.search-trending-tag-wrap {
+					a {
+						color: #969696;
+						border: 1px solid #545454;
+						&:hover {
+							color: #c8c8c8;
+							border: 1px solid #c8c8c8;
+						}
+					}
+				}
+			}
+			.search-recent {
+				.search-recent-item-wrap {
+					li {
+						&:hover {
+							background-color: $hoverBgc-night;
+						}
+						a {
+							color: $text-night;
+							i {
+								color: $text-night;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.user-info {
+		div {
+			&:hover {
+				background-color: $hoverBgc-night;
+			}
+		}
+		ul {
+			background-color: $bodyBgc-night;
+			li {
+				&:hover {
+					background-color: $hoverBgc-night;
+				}
+			}
+		}
+	}
+	.setting-theme-box {
+		background-color: $bodyBgc-night;
+		&:before {
+			border-bottom-color: $bodyBgc-night !important;
+		}
+		div {
+			i {
+				color: #c5c514;
+			}
+		}
+	}
+	.author-list {
+		.author-list-info {
+			li {
+				img {
+					border: 1px solid #2f2f2f;
+				}
+				.author-list-name {
+					.name {
+						color: $text-night;
+					}
+				}
+			}
+		}
+		.author-list-all {
+			button {
+				color: $text-night;
+				border-color: #2f2f2f;
+				background-color: #4a4a4a;
+			}
+		}
+	}
+	.article-list {
+		.note-list {
+			li {
+				border-color: #2f2f2f;
+			}
+		}
+	}
+}

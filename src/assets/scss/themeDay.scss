@@ -1,0 +1,83 @@
+@import './variable.scss';
+.theme-day {
+	color: $text-day;
+	background-color: $bodyBgc-day;
+	a {
+		color: $text-day;
+	}
+	.header {
+		border-bottom: 1px solid #dfdfdf;
+	}
+	.nav {
+		a:hover {
+			background-color: $hoverBgc-day;
+		}
+	}
+	.search {
+		input {
+			color: $text-day;
+			border: 1px solid #eee;
+			background: #eee;
+		}
+		.tipbox {
+			background-color: $bodyBgc-day;
+			&:before {
+				border-bottom-color: $bodyBgc-day !important;
+			}
+			.search-trending {
+				border-bottom: 1px solid #f0f0f0;
+				.search-trending-header {
+					span,a {
+						color: #969696;
+					}
+				}
+				.search-trending-tag-wrap {
+					a {
+						color: #787878;
+						border: 1px solid #ddd;
+						&:hover {
+							color: #333;
+							border: 1px solid #aaa;
+						}
+					}
+				}
+			}
+			.search-recent {
+				.search-recent-item-wrap {
+					li {
+						&:hover {
+							background-color: $hoverBgc-day;
+						}
+						a {
+							color: #333;
+							i {
+								color: #787878;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.user-info {
+		div {
+			&:hover {
+				background-color: $hoverBgc-day;
+			}
+		}
+		ul {
+			background-color: $bodyBgc-day;
+			li {
+				&:hover {
+					background-color: $hoverBgc-day;
+				}
+			}
+		}
+	}
+	.setting-theme-box {
+		background-color: $bodyBgc-day;
+		&:before {
+			border-bottom-color: $bodyBgc-day !important;
+		}
+	}
+}

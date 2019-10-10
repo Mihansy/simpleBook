@@ -1,44 +1,28 @@
 <template>
-	<div id="app">
-		<Header></Header>
+	<div id="app" class="app theme-day theme-heiti">
+		<HeadMenu/>
 		<router-view></router-view>
 	</div>
 </template>
 
 <script>
-	import Header from './components/Header.vue'
+	import HeadMenu from './components/HeadMenu.vue'
 
 	export default {
 		name: 'app',
 		components: {
-			Header
+			HeadMenu
 		}
 	}
 </script>
 
 <style lang="scss">
-	@import '@/assets/scss/variable.scss';
-
-	#app {
-		font-family: 'Avenir', Helvetica, Arial, sans-serif;
+	@import  '@/assets/scss/themeDay.scss';
+	@import  '@/assets/scss/themeNight.scss';
+	.app {
+		font-family: Arial, Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
+		font-size: 14px;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
-		text-align: center;
-		color: $text-night;
-		background-color: $bodyBgc-night;
 	}
-
-	#nav {
-		padding: 30px;
-
-		a {
-			font-weight: bold;
-			color: $text-night;
-
-			&.router-link-exact-active {
-				color: #42b983;
-			}
-		}
-	}
-
-	<style>
+</style>
