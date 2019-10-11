@@ -1,6 +1,9 @@
 <template>
 	<div class="find-box">
 		<div class="find-left">
+			<div class="banner">
+				<img src="https://upload.jianshu.io/admin_banners/web_images/4741/240c3b01ebd63e7a7129976df20c5e10bd43d799.png?imageMogr2/auto-orient/strip|imageView2/1/w/1250/h/540">
+			</div>
 			<ArticleList/>
 			<div class="load-more-btn">
 				<el-button>阅读更多</el-button>
@@ -63,6 +66,15 @@
 			flex: 1;
 			padding-top: 30px;
 			margin-right: 40px;
+			.banner {
+				margin-bottom: 30px;
+				img {
+					width: 100%;
+					height: 270px;
+					background-color: hsla(0,0%,71%,.2);
+					border-radius: 6px;
+				}
+			}
 			.load-more-btn {
 				button {
 					width: 100%;

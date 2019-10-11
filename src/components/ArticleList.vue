@@ -2,17 +2,17 @@
 	<div class="article-list">
 		<ul class="note-list">
 			<li class="have-img">
-				<a class="wrap-img" href="/p/2b49390bd7d9" target="_blank">
+				<a class="wrap-img">
 					<img src="../assets/images/head.png"/>
 				</a>
 				<div class="content">
-					<a class="title" target="_blank" href="/p/2b49390bd7d9">Kiwi 浏览器：完美支持 Chrome 扩展的安卓浏览器</a>
+					<a class="title" @click="toArticleDetail">Kiwi 浏览器：完美支持 Chrome 扩展的安卓浏览器</a>
 					<p class="abstract">
 						前言 扩展程序可以说是 Chrome 浏览器的灵魂了，遗憾的是手机版 Chrome 并不支持扩展安装，虽然也很简洁快速，但总觉得差点意思…… 这...
 					</p>
 					<div class="meta">
-						<a class="nickname" target="_blank" href="/u/c9d4cc38bc02">己粒</a>
-						<a target="_blank" href="/p/2b49390bd7d9#comments">
+						<a class="nickname" target="_blank" @click="toPersonalHome">己粒</a>
+						<a>
 							<i class="iconfont icontubiaozhizuo-"></i> 1
 						</a> <span><i class="iconfont iconxihuan"></i> 7</span>
 					</div>
@@ -20,7 +20,7 @@
 			</li>
 			<li>
 				<div class="content">
-					<a class="title" target="_blank" href="/p/2b49390bd7d9">Kiwi 浏览器：完美支持 Chrome 扩展的安卓浏览器</a>
+					<a class="title" @click="toArticleDetail">Kiwi 浏览器：完美支持 Chrome 扩展的安卓浏览器</a>
 					<p class="abstract">
 						前言 扩展程序可以说是 Chrome 浏览器的灵魂了，遗憾的是手机版 Chrome 并不支持扩展安装，虽然也很简洁快速，但总觉得差点意思…… 这...
 					</p>
@@ -28,8 +28,8 @@
 						<span class="jsd-meta">
 							<i class="iconfont icon31"></i> 2.2
 						</span>
-						<a class="nickname" target="_blank" href="/u/c9d4cc38bc02">己粒</a>
-						<a target="_blank" href="/p/2b49390bd7d9#comments">
+						<a class="nickname" target="_blank" @click="toPersonalHome">己粒</a>
+						<a>
 							<i class="iconfont icontubiaozhizuo-"></i> 1
 						</a> <span><i class="iconfont iconxihuan"></i> 7</span>
 					</div>
@@ -40,6 +40,26 @@
 </template>
 
 <script>
+	export default {
+		name: 'articleList',
+		data() {
+			return {
+				
+			}
+		},
+		methods: {
+			toArticleDetail() {
+				this.$router.push({
+					path: '/articleDetail'
+				})
+			},
+			toPersonalHome() {
+				this.$router.push({
+					path: '/personalHome'
+				})
+			}
+		}
+	}
 </script>
 
 <style lang="scss">
@@ -52,6 +72,7 @@
 				padding: 15px 2px 20px 0;
 				border-bottom: 1px solid #f0f0f0;
 				word-wrap: break-word;
+				cursor: pointer;
 				&.have-img {
 					.wrap-img {
 						position: absolute;
@@ -78,6 +99,9 @@
 						font-size: 18px;
 						font-weight: 700;
 						line-height: 1.5;
+						&:hover {
+							text-decoration: underline;
+						}
 					}
 					.abstract {
 						margin: 0 0 8px;

@@ -20,6 +20,26 @@ export default new Router({
 		  path: '/message',
 		  name: 'message',
 		  component: () => import(/* webpackChunkName: "Message" */ './views/Message.vue')
+		},
+		{
+		  path: '/attention/specialSubject',
+		  name: 'specialSubject',
+		  component: () => import(/* webpackChunkName: "SpecialSubject" */ './views/SpecialSubject.vue')
+		},
+		{
+		  path: '/personalHome',
+		  name: 'personalHome',
+		  component: () => import(/* webpackChunkName: "SpecialSubject" */ './views/PersonalHome.vue')
+		},
+		{
+		  path: '/articleDetail',
+		  name: 'articleDetail',
+		  component: () => import(/* webpackChunkName: "ArticleDetail" */ './views/ArticleDetail.vue')
+		},
+		{
+		  path: '/login',
+		  name: 'login',
+		  component: () => import(/* webpackChunkName: "Login" */ './views/Login.vue')
 		}
   ]
 })
