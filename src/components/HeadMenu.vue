@@ -7,83 +7,66 @@
 			<div class="leftfloat nav">
 				<router-link to="/">发现</router-link>
 				<router-link to="/attention">关注</router-link>
-				<router-link to="/message">消息</router-link>
-				<ul class="dropdown-menu">
-					<li>
-						<a href="/notifications#/comments">
-							<i class="iconfont iconpinglun" style="font-size: 20px;"></i> <span>评论</span>
-						</a>
-					</li>
-					<li>
-						<a href="/notifications#/chats">
-							<i class="iconfont icone-mail_icon" style="font-size: 20px;margin-left: -2px;"></i> <span>简信</span>
-						</a>
-					</li>
-					<li>
-						<a href="/notifications#/requests">
-							<i class="iconfont iconfuwuqingqiu"></i> <span>投稿请求</span>
-						</a>
-					</li>
-					<li>
-						<a href="/notifications#/likes">
-							<i class="iconfont iconlike-1"></i> <span>喜欢和赞</span>
-						</a>
-					</li>
-					<li>
-						<a href="/notifications#/follows">
-							<i class="iconfont iconguanzhuchenggong" style="font-size: 24px;margin-left: -2px;"></i> <span>关注</span>
-						</a>
-					</li>
-					<li>
-						<a href="/notifications#/money">
-							<i class="iconfont iconqianfenleishouye"></i> <span>赞赏和付费</span>
-						</a>
-					</li>
-					<li>
-						<a href="/notifications#/others">
-							<i class="iconfont iconcaidan1" style="font-size: 20px;"></i> <span>其它提醒</span>
-						</a>
-					</li>
-				</ul>
+				<div @mouseenter="enter" @mouseleave="leave">
+					<router-link :to="{name: 'message', params: {componentName: 'Comment', currentIndex: 0}}">消息</router-link>
+					<ul class="dropdown-menu" v-show="isHover">
+						<li 
+							v-for="(item, index) in menu" 
+							:key="index" 
+							@click="switchTab(index, item.componentName)">
+							<div>
+								<i class="iconfont" :class="item.icon"></i>
+								<span>{{item.name}}</span>
+							</div>
+						</li>
+					</ul>
+				</div>
 			</div>
 			<div class="leftfloat search">
-				<input type="text" placeholder="搜索">
-				<span class="search-btn search-btn-focus">
+				<input 
+				  type="text" 
+					placeholder="搜索"
+					v-model="keyword"
+					@focus="showTip"
+					@keyup.enter="toSearchResult(keyword)">
+				<span class="search-btn search-btn-focus" @click="toSearchResult(keyword)">
 					<i class="iconfont icon41"></i>
 				</span>
-				<div class="tipbox">
+				<div class="tipbox" v-show="isFocus">
 					<div class="search-trending">
 						<div class="search-trending-header clearfix">
 							<span>热门搜索</span>
 							<a><i class="iconfont iconiconset0344"></i> 换一批</a>
 						</div>
 						<ul class="search-trending-tag-wrap">
-							<li><a href="" target="_blank">微信</a></li>
+							<li v-for="(item, index) in hotWord" :key="index">
+								<span @click="toSearchResult(item)">{{item}}</span>
+								<!-- tag="a" target="_blank" 表示在新窗口打开页面 -->
+								<!-- <router-link 
+								  :to="{path: '/searchResult', query: {keyword: item}}" 
+									tag="a" 
+									target="_blank">
+									{{item}}
+								</router-link> -->
+							</li>
 						</ul>
 					</div>
 					<div class="search-recent">
 						<ul class="search-recent-item-wrap">
-							<li>
-								<a href="" target="_blank">
+							<li v-for="(item, index) in recentWord" :key="item.id">
+								<div @click="toSearchResult(item.name)">
 									<i class="iconfont iconshijian"></i>
-									<span>国庆70周年</span>
-									<i class="iconfont iconxiangyou"></i>
-								</a>
-							</li>
-							<li>
-								<a href="" target="_blank">
-									<i class="iconfont iconshijian"></i>
-									<span>国庆周年</span>
-									<i class="iconfont iconxiangyou"></i>
-								</a>
+									<span>{{item.name}}</span>
+									<i class="iconfont iconguanbi" @click.stop="delWord(index)"></i>
+								</div>
 							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
 			<div class="rightfloat login-btns">
-				<span class="sign-in-btn" @click="toSignIn">登录</span>
-				<span class="sign-up-btn" @click="toSignUp">注册</span>
+				<span class="sign-in-btn" @click="toLogin('sign-in')">登录</span>
+				<span class="sign-up-btn" @click="toLogin('sign-up')">注册</span>
 			</div>
 			<div class="rightfloat user-info">
 				<div @click="toPersonalHome">
@@ -103,13 +86,15 @@
 				</ul>
 			</div>
 			<div class="rightfloat setting-theme-btn">
-				<span><i class="iconfont iconzitifont5"></i></span>
-				<div class="setting-theme-box">
-					<div><i class="iconfont iconmoonbyueliang"></i>&nbsp;&nbsp;夜间模式&nbsp;&nbsp;&nbsp;&nbsp;
-						<el-switch v-model="isNight" active-color="#6dacf4"></el-switch>
+				<span @click="showSetting"><i class="iconfont iconzitifont5"></i></span>
+				<div class="setting-theme-box" v-show="isSetting">
+					<div>
+						<i class="iconfont iconmoonbyueliang"></i><span style="padding: 0 30px 0 10px;">夜间模式</span>
+						<el-switch v-model="theme.isNight" active-color="#6dacf4" @change="setTheme"></el-switch>
 					</div>
-					<div><i class="iconfont iconai247" style="font-size: 24px;"></i>&nbsp;设为宋体&nbsp;&nbsp;&nbsp;
-						<el-switch v-model="isSong" active-color="#6dacf4"></el-switch>
+					<div>
+						<i class="iconfont iconai247" style="font-size: 24px; margin-left: -8px;"></i><span style="padding: 0 30px 0 10px;">设为宋体</span>
+						<el-switch v-model="theme.isSong" active-color="#6dacf4" @change="setTheme"></el-switch>
 					</div>
 				</div>
 			</div>
@@ -119,12 +104,90 @@
 </template>
 
 <script>
+	import Comment from '@/components/message/Comment.vue'
+	import Contribute from '@/components/message/Contribute.vue'
+	import Email from '@/components/message/Email.vue'
+	import Like from '@/components/message/Like.vue'
+	import AllAttention from '@/components/message/AllAttention.vue'
+	import AppreciatePay from '@/components/message/AppreciatePay.vue'
+	import Other from '@/components/message/Other.vue'
+	import {Bus} from '@/assets/js/bus.js'
+	
 	export default {
 		name: 'headmenu',
+		components: {
+			Comment,
+			Contribute,
+			Email,
+			Like,
+			AllAttention,
+			AppreciatePay,
+			Other
+		},
 		data() {
 			return {
-				isNight: true,
-				isSong: true
+				menu: [{
+					"icon": "iconpinglun",
+					"name": "评论",
+					"componentName": "Comment"
+				},{
+					"icon": "icone-mail_icon",
+					"name": "简信",
+					"componentName": "Email"
+				},{
+					"icon": "iconfuwuqingqiu",
+					"name": "投稿请求",
+					"componentName": "Contribute"
+				},{
+					"icon": "iconlike-1",
+					"name": "喜欢和赞",
+					"componentName": "Like"
+				},{
+					"icon": "iconguanzhuchenggong",
+					"name": "关注",
+					"componentName": "AllAttention"
+				},{
+					"icon": "iconqianfenleishouye",
+					"name": "赞赏和付费",
+					"componentName": "AppreciatePay"
+				},{
+					"icon": "iconcaidan1",
+					"name": "其他提醒",
+					"componentName": "Other"
+				}],
+				isNight: false,
+				isSong: false,
+				isHover: false,
+				keyword: '',
+				hotWord: ['微信', '北京', '70周年', 'vue', 'python', '90后脱发'],
+				recentWord: [{
+					name: '国庆70周年',
+					id: '001'
+				},{
+					name: '容联七陌年',
+					id: '002'
+				},{
+					name: 'pyecharts',
+					id: '003'
+				}],
+				mask: {
+					isMask: true,
+					which: ''
+				},
+				theme: {
+					isNight: false,
+					isSong: false
+				}
+			}
+		},
+		props: {
+			isFocus: {
+				type: Boolean,
+				default: false
+			},
+			isSetting: {
+				type: Boolean,
+				default: false
 			}
 		},
 		methods: {
@@ -133,17 +196,74 @@
 					path: '/personalHome'
 				})
 			},
-			toSignIn() {
+			toLogin(type) {
 				this.$router.push({
-					path: '/login'
+					name: 'login',
+					params: {
+						type: type
+					}
 				})
 			},
-			toSignUp() {
-				this.$router.push({
-					path: '/login'
-				})
+			enter() {
+				this.isHover = true
+			},
+			leave() {
+				this.isHover = false
+			},
+			switchTab(index, componentName) {
+				const params = {
+					componentName: componentName,
+					currentIndex: index
+				}
+				//如果是当前页面，就把参数params传过去，切换组件。否则，跳转页面。
+				if(this.$route.path == '/message') {
+					Bus.$emit('changeComponent', params) //在该组件中定义，要调用Message组件中的bus事件名changeComponent
+				}else{
+					this.$router.push({
+						name: 'message',
+						params: params
+					})
+				}
+			},
+			showTip() {
+				this.mask = {
+					isMask: true,
+					which: '1'
+				}
+				this.$emit('hasMask', this.mask)
+			},
+			toSearchResult(keyword) {
+				if(keyword !== '') {
+					this.mask = {
+						isMask: false,
+						which: '1'
+					}
+					this.$emit('hasMask', this.mask)
+					
+					let resultPage = this.$router.resolve({
+						path: '/searchResult',
+						query: {
+							keyword: keyword
+						}
+					})
+					window.open(resultPage.href, '_blank')
+				}
+			},
+			delWord(index) {
+				this.recentWord.splice(index, 1)
+			},
+			showSetting() {
+				this.mask = {
+					isMask: true,
+					which: '2'
+				}
+				this.$emit('hasMask', this.mask)
+			},
+			setTheme() {
+				console.log(this.theme)
+				this.$emit('changeTheme', this.theme)
 			}
-		}
+		},
 	}
 </script>
 
@@ -188,7 +308,6 @@
 					top: 103%;
 					left: 152px;
 					z-index: 1000;
-					display: none;
 					width: 180px;
 					border-radius: 0 0 4px 4px;
 					min-width: 160px;
@@ -200,8 +319,7 @@
 					background-clip: padding-box;
 					li {
 						line-height: 20px;
-						a {
-							display: block;
+						div {
 							clear: both;
 							font-weight: 400;
 							font-size: 14px;
@@ -211,6 +329,10 @@
 							padding: 10px 20px;
 							line-height: 30px;
 							margin-right: 0;
+							cursor: pointer;
+							&:hover {
+								background-color: rgba(240,240,240,.7);
+							}
 							i {
 								margin-right: 15px;
 								font-size: 22px;
@@ -249,6 +371,7 @@
 					position: absolute;
 					top: 5px;
 					right: 7px;
+					z-index: 10;
 					width: 30px;
 					height: 30px;
 					color: #969696;
@@ -274,7 +397,7 @@
 					position: absolute;
 					left: 0;
 					top: 42px;
-					display: none;
+					z-index: 9;
 					box-shadow: 0 0 8px rgba(0, 0, 0, .2);
 					margin-top: 9px;
 					width: 250px;
@@ -284,7 +407,7 @@
 						position: absolute;
 						top: -20px;
 						left: 27px;
-						z-index: 1;
+						z-index: 9;
 						content: "";
 						border: 10px solid transparent;
 					}
@@ -318,10 +441,11 @@
 								display: inline-block;
 								line-height: 28px;
 
-								a {
+								span {
 									padding: 2px 6px;
 									font-size: 12px;
 									border-radius: 3px;
+									cursor: pointer;
 								}
 							}
 						}
@@ -335,12 +459,12 @@
 								line-height: 20px;
 								margin-right: 0;
 
-								a {
-									display: block;
+								div {
 									line-height: 20px;
 									padding: 10px 15px;
 									font-size: 14px;
 									position: relative;
+									cursor: pointer;
 
 									span {
 										vertical-align: middle;
@@ -356,11 +480,12 @@
 										margin-right: 10px;
 									}
 
-									.iconxiangyou {
+									.iconguanbi {
 										position: absolute;
 										right: 15px;
 										top: 10px;
 										color: #a0a0a0;
+										cursor: pointer;
 									}
 								}
 							}
@@ -408,7 +533,7 @@
 					position: absolute;
 					top: 100%;
 					left: 0;
-					z-index: 1000;
+					z-index: 9;
 					display: none;
 					float: left;
 					min-width: 160px;
@@ -416,7 +541,6 @@
 					font-size: 14px;
 					text-align: left;
 					border-radius: 4px;
-					border: 1px solid rgba(0, 0, 0, .15);
 					box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 					background-clip: padding-box;
 
@@ -431,6 +555,9 @@
 							font-size: 22px;
 						}
 					}
+				}
+				&:hover ul {
+					display: block;
 				}
 			}
       .login-btns {
@@ -481,8 +608,7 @@
 					position: absolute;
 					right: -20px;
 					top: 60px;
-					z-index: 1;
-					display: none;
+					z-index: 9;
 					padding: 20px 20px 20px 24px;
 					margin-left: -80px;
 					width: 160px;

@@ -28,6 +28,7 @@
 	import AllAttention from '@/components/message/AllAttention.vue'
 	import AppreciatePay from '@/components/message/AppreciatePay.vue'
 	import Other from '@/components/message/Other.vue'
+	import {Bus} from '@/assets/js/bus.js'
 	
 	export default {
 		name: 'message',
@@ -79,7 +80,14 @@
 			switchTab(index, componentName) {
 				this.currentIndex = index
 				this.componentName = componentName
-			}
+			},
+		},
+		mounted() {
+			Bus.$on('changeComponent',(params) => { //在该组件中调用回调函数
+				//console.log(params)
+				this.currentIndex = params.currentIndex
+				this.componentName = params.componentName
+			})
 		}
 	}
 </script>

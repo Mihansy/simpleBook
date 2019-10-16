@@ -32,7 +32,7 @@
 					}
 				}
 				.search-trending-tag-wrap {
-					a {
+					span {
 						color: #969696;
 						border: 1px solid #545454;
 						&:hover {
@@ -48,7 +48,7 @@
 						&:hover {
 							background-color: $hoverBgc-night;
 						}
-						a {
+						div {
 							color: $text-night;
 							i {
 								color: $text-night;

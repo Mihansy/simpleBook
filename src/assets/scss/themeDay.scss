@@ -32,7 +32,7 @@
 					}
 				}
 				.search-trending-tag-wrap {
-					a {
+					span {
 						color: #787878;
 						border: 1px solid #ddd;
 						&:hover {
@@ -48,7 +48,7 @@
 						&:hover {
 							background-color: $hoverBgc-day;
 						}
-						a {
+						div {
 							color: #333;
 							i {
 								color: #787878;
