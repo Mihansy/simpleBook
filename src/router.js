@@ -22,7 +22,7 @@ export default new Router({
 		  component: () => import(/* webpackChunkName: "Message" */ './views/Message.vue')
 		},
 		{
-		  path: '/attention/specialSubject',
+		  path: '/specialSubject',
 		  name: 'specialSubject',
 		  component: () => import(/* webpackChunkName: "SpecialSubject" */ './views/SpecialSubject.vue')
 		},

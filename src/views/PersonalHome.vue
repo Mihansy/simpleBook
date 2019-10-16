@@ -74,6 +74,11 @@
 			</div>
 			<div class="my-theme">
 				<div class="title">我创建的专题</div>
+				<ul>
+					<li @click="toSpecialSubject"><i class="iconfont iconwenzhang2"></i> 旅游</li>
+					<li><i class="iconfont iconwenzhang2"></i> 工作</li>
+					<li><i class="iconfont iconwenzhang2"></i> 风景</li>
+				</ul>
 				<div class="btn">
 					<i class="iconfont iconjiahaob"></i>
 					创建一个新专题
@@ -131,6 +136,11 @@
 			handleClick(tab, event) {
 				console.log(tab, event);
 			},
+			toSpecialSubject() {
+				this.$router.push({
+					path: '/specialSubject'
+				})
+			}
 		}
 	}
 </script>
@@ -259,6 +269,14 @@
 				.title {
 					color: #969696;
 					margin-bottom: 14px;
+				}
+				ul {
+					margin-bottom: 14px;
+					li {
+						margin: 10px 0;
+						line-height: 22px;
+						cursor: pointer;
+					}
 				}
 				.btn {
 					color: #3db922;
