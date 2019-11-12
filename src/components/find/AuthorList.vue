@@ -4,11 +4,11 @@
 			<span><i class="iconfont iconiconset0344"></i> 换一换</span>
 		</div>
 		<ul class="author-list-info">
-			<li>
-				<img src="../../assets/images/head.png" width="48">
+			<li v-for="(item, index) in author" :key="index">
+				<img :src="item.head_img" width="48">
 				<div class="author-list-name">
-					<div class="name">卢璐说</div>
-					<div class="other">写了<span>1213k</span>字，<span>26.9k</span>喜欢</div>
+					<div class="name">{{item.name}}</div>
+					<div class="other">写了<span>{{item.total_word}}</span>字，<span>{{item.like}}</span>喜欢</div>
 				</div>
 				<div class="author-list-addfocus"><i class="iconfont iconjiahaob"></i>关注</div>
 			</li>
@@ -20,6 +20,11 @@
 </template>
 
 <script>
+	export default {
+		props: {
+			author: Array
+		},
+	}
 </script>
 
 <style lang="scss">

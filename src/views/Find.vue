@@ -4,7 +4,7 @@
 			<div class="banner">
 				<img src="https://upload.jianshu.io/admin_banners/web_images/4741/240c3b01ebd63e7a7129976df20c5e10bd43d799.png?imageMogr2/auto-orient/strip|imageView2/1/w/1250/h/540">
 			</div>
-			<ArticleList/>
+			<ArticleList :list="list"/>
 			<div class="load-more-btn">
 				<el-button>阅读更多</el-button>
 			</div>
@@ -39,7 +39,7 @@
 					<div class="description">随时随地发现和创作内容</div>
 				</div>
 			</div>
-			<AuthorList/>
+			<AuthorList :author="author"/>
 		</div>
 	</div>
 </template>
@@ -53,6 +53,37 @@
 		components: {
 			AuthorList,
 			ArticleList
+		},
+		data() {
+			return {
+				list: [],
+				author: []
+			}
+		},
+		methods: {
+			getArticleList(obj) {
+				this.$axios.findList(obj).then(res => {
+					this.list = res.data.data
+					//console.log(res.data.data)
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			getAuthorList(count) {
+				this.$axios.authorList(count).then(res => {
+					this.author = res.data.users
+					console.log(res.data.users)
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+		},
+		mounted() {
+			this.getArticleList({
+				page: 1,
+				count: 20
+			})
+			this.getAuthorList(5)
 		}
 	}
 </script>
@@ -93,6 +124,7 @@
 				}
 			}
 			.friend-link {
+				margin-bottom: 30px;
 				color: #969696;
 				a {
 					color: #969696;

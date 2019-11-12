@@ -1,37 +1,26 @@
 <template>
 	<div class="article-list">
 		<ul class="note-list">
-			<li class="have-img">
+			<li class="have-img" 
+			  v-for="(item, index) in list"
+				:key="index">
 				<a class="wrap-img">
-					<img src="../assets/images/head.png"/>
+					<img :src="item.pic"/>
 				</a>
 				<div class="content">
-					<a class="title" @click="toArticleDetail">Kiwi 浏览器：完美支持 Chrome 扩展的安卓浏览器</a>
+					<a class="title" @click="toArticleDetail">{{item.title}}</a>
 					<p class="abstract">
-						前言 扩展程序可以说是 Chrome 浏览器的灵魂了，遗憾的是手机版 Chrome 并不支持扩展安装，虽然也很简洁快速，但总觉得差点意思…… 这...
-					</p>
-					<div class="meta">
-						<a class="nickname" target="_blank" @click="toPersonalHome">己粒</a>
-						<a>
-							<i class="iconfont icontubiaozhizuo-"></i> 1
-						</a> <span><i class="iconfont iconxihuan"></i> 7</span>
-					</div>
-				</div>
-			</li>
-			<li>
-				<div class="content">
-					<a class="title" @click="toArticleDetail">Kiwi 浏览器：完美支持 Chrome 扩展的安卓浏览器</a>
-					<p class="abstract">
-						前言 扩展程序可以说是 Chrome 浏览器的灵魂了，遗憾的是手机版 Chrome 并不支持扩展安装，虽然也很简洁快速，但总觉得差点意思…… 这...
+						{{item.paragraph}}
 					</p>
 					<div class="meta">
 						<span class="jsd-meta">
-							<i class="iconfont icon31"></i> 2.2
+							<i class="iconfont icon31"></i>
+							{{item.reward}}
 						</span>
-						<a class="nickname" target="_blank" @click="toPersonalHome">己粒</a>
+						<a class="nickname" target="_blank" @click="toPersonalHome">{{item.author}}</a>
 						<a>
-							<i class="iconfont icontubiaozhizuo-"></i> 1
-						</a> <span><i class="iconfont iconxihuan"></i> 7</span>
+							<i class="iconfont icontubiaozhizuo-"></i> {{item.comment}}
+						</a> <span><i class="iconfont iconxihuan"></i> {{item.like}}</span>
 					</div>
 				</div>
 			</li>
@@ -44,8 +33,11 @@
 		name: 'articleList',
 		data() {
 			return {
-				
+
 			}
+		},
+		props: {
+			list: Array
 		},
 		methods: {
 			toArticleDetail() {
@@ -58,6 +50,9 @@
 					path: '/personalHome'
 				})
 			}
+		},
+		mounted() {
+
 		}
 	}
 </script>
