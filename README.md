@@ -1,5 +1,12 @@
 # simplebook
 仿简书网站
+
+## 技术框架
+es6 + vue2.x + vue/cli 3.x + vue-router + axios + elementUI + scss
+
+## 数据来源
+Easy mock 
+
 ## Project setup
 ```
 yarn install
