@@ -24,3 +24,7 @@ export const authorList = (count) => {
 		}
 	})
 }
+
+export const attenList = () => { 
+	return ajax.get('attentions-left-list')
+}

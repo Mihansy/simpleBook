@@ -40,19 +40,19 @@
 			<el-tabs v-model="activeName" @tab-click="handleClick">
 				<el-tab-pane label="文章" name="first">
 					<span slot="label"><i class="iconfont iconwenzhang2"></i> 文章</span>
-					<ArticleList/>
+					<ArticleList :list="list"/>
 				</el-tab-pane>
 				<el-tab-pane label="动态" name="second">
 					<span slot="label"><i class="iconfont iconwenzhang2"></i> 动态</span>
-					<ArticleList/>
+					<ArticleList :list="list"/>
 				</el-tab-pane>
 				<el-tab-pane label="最新评论" name="third">
 					<span slot="label"><i class="iconfont iconpinglunzu"></i> 最新评论</span>
-					<ArticleList/>
+					<ArticleList :list="list"/>
 				</el-tab-pane>
 				<el-tab-pane label="热门" name="four">
 					<span slot="label"><i class="iconfont iconremen"></i> 热门</span>
-					<ArticleList/>
+					<ArticleList :list="list"/>
 				</el-tab-pane>
 			</el-tabs>
 		</div>
@@ -120,10 +120,24 @@
 			return {
 				intiroduction: '分享生活趣事与工作的日志',
 				isEadit: false,
-				activeName: 'first'
+				activeName: 'first',
+				list: []
 			}
 		},
+		mounted() {
+			this.getArticleList({
+				page: 1,
+				count: 20
+			})
+		},
 		methods:{
+			getArticleList(obj) {
+				this.$axios.findList(obj).then(res => {
+					this.list = res.data.data
+				}).catch(err => {
+					console.log(err)
+				})
+			},
 			handleEadit() {
 				this.isEadit = true
 			},
@@ -135,6 +149,10 @@
 			},
 			handleClick(tab, event) {
 				console.log(tab, event);
+				this.getArticleList({
+					page: 1,
+					count: 20
+				})
 			},
 			toSpecialSubject() {
 				this.$router.push({

@@ -6,7 +6,7 @@
 			</div>
 			<ArticleList :list="list"/>
 			<div class="load-more-btn">
-				<el-button>阅读更多</el-button>
+				<el-button @click="getMoreList">阅读更多</el-button>
 			</div>
 			<div class="friend-link">
 				<a href="#">关于简书</a> |
@@ -41,6 +41,7 @@
 			</div>
 			<AuthorList :author="author"/>
 		</div>
+	  
 	</div>
 </template>
 
@@ -63,8 +64,9 @@
 		methods: {
 			getArticleList(obj) {
 				this.$axios.findList(obj).then(res => {
-					this.list = res.data.data
-					//console.log(res.data.data)
+					this.list = [...this.list, ...res.data.data]
+					//this.list = res.data.data
+					console.log(this.list)
 				}).catch(err => {
 					console.log(err)
 				})
@@ -77,6 +79,12 @@
 					console.log(err)
 				})
 			},
+			getMoreList() {
+				this.getArticleList({
+					page: 2,
+					count: 20
+				})
+			}
 		},
 		mounted() {
 			this.getArticleList({

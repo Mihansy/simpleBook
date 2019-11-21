@@ -64,14 +64,14 @@
 					</div>
 				</div>
 			</div>
-			<div class="rightfloat login-btns">
+			<div class="rightfloat login-btns" v-if="isLogined">
 				<span class="sign-in-btn" @click="toLogin('sign-in')">登录</span>
 				<span class="sign-up-btn" @click="toLogin('sign-up')">注册</span>
 			</div>
 			<div class="rightfloat user-info">
 				<div @click="toPersonalHome">
 					<a>
-						<img src="../assets/images/head.png" width="40">
+						<img src="http://upload.jianshu.io/users/upload_avatars/18491406/a52ae45e-fef9-4858-9186-09781bdbbc62.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/90/h/90/format/webp" width="40">
 					</a>
 				</div>
 				<ul>
@@ -126,6 +126,7 @@
 		},
 		data() {
 			return {
+				isLogined: false,
 				menu: [{
 					"icon": "iconpinglun",
 					"name": "评论",
@@ -159,7 +160,7 @@
 				isSong: false,
 				isHover: false,
 				keyword: '',
-				hotWord: ['微信', '北京', '70周年', 'vue', 'python', '90后脱发'],
+				hotWord: ['微信', '北京', '70周年', 'vue', 'python', '90后'],
 				recentWord: [{
 					name: '国庆70周年',
 					id: '001'

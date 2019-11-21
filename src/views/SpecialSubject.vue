@@ -18,15 +18,15 @@
 			<el-tabs v-model="activeName" @tab-click="handleClick">
 				<el-tab-pane label="最新收录" name="first">
 					<span slot="label"><i class="iconfont iconwenzhang2"></i> 最新收录</span>
-					<ArticleList />
+					<ArticleList :list="list"/>
 				</el-tab-pane>
 				<el-tab-pane label="最新评论" name="second">
 					<span slot="label"><i class="iconfont iconpinglunzu"></i> 最新评论</span>
-					<ArticleList />
+					<ArticleList :list="list"/>
 				</el-tab-pane>
 				<el-tab-pane label="热门" name="third">
 					<span slot="label"><i class="iconfont iconremen"></i> 热门</span>
-					<ArticleList />
+					<ArticleList :list="list"/>
 				</el-tab-pane>
 			</el-tabs>
 		</div>
@@ -171,12 +171,30 @@
 		},
 		data() {
 			return {
-				activeName: 'first'
+				activeName: 'first',
+				list: []
 			}
 		},
+		mounted() {
+			this.getArticleList({
+				page: 1,
+				count: 20
+			})
+		},
 		methods: {
+			getArticleList(obj) {
+				this.$axios.findList(obj).then(res => {
+					this.list = res.data.data
+				}).catch(err => {
+					console.log(err)
+				})
+			},
 			handleClick(tab, event) {
 				console.log(tab, event);
+				this.getArticleList({
+					page: 1,
+					count: 20
+				})
 			},
 		},
 	}

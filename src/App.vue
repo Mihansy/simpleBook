@@ -10,6 +10,7 @@
 			@changeTheme="handleChangeTheme"/>
 		<router-view></router-view>
 		<div class="mask" v-show="isShow" @click="hideMask"></div>
+		<div v-show="hasTopBtn" class="to-top-btn" @click="toTop">👆</div>
 	</div>
 </template>
 
@@ -28,12 +29,16 @@
 				isSong: false,
 				isShow: false,
 				hasTip: false,
-				hasSetting: false
+				hasSetting: false,
+				hasTopBtn: false
 			}
 		},
 		mounted() {
 			//console.log(this.$route.path)
 			this.path = this.$route.path  //this.path = 当前页面路由
+			
+			//监听滚动条
+			window.addEventListener('scroll', this.handleScroll, true) 
 		},
 		watch: { //监测路由变化
 			$route(to, from) {
@@ -41,6 +46,15 @@
 			}
 		},
 		methods: {
+			handleScroll() {
+				var scroll = document.documentElement.scrollTop || document.body.scrollTop
+				//console.log(scroll)
+				if(scroll > 3000) {
+					this.hasTopBtn = true
+				}else{
+					this.hasTopBtn = false
+				}
+			},
 			handleMask(mask) {
 				this.isShow = mask.isMask
 				if(mask.which == '1') {
@@ -57,6 +71,10 @@
 			handleChangeTheme(theme) {
 				this.isNight = theme.isNight
 				this.isSong = theme.isSong
+			},
+			toTop() {
+				document.body.scrollTop = 0
+				document.documentElement.scrollTop = 0
 			}
 		}
 	}
@@ -84,6 +102,14 @@
 			width: 100%;
 			height: 100%;
 			background-color: rgba($color: #000000, $alpha: 0);
+		}
+		.to-top-btn {
+			position: fixed;
+			right: 30px;
+			bottom: 40px;
+			cursor: pointer;
+			color: red;
+			font-size: 30px;
 		}
 	}
 </style>

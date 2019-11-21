@@ -6,20 +6,14 @@
 				<span class="add-btn"><i class="iconfont iconjiahaob"></i>添加关注</span>
 			</div>
 			<ul class="atten-left-nav">
-				<li class="active">
-					<img src="https://upload.jianshu.io/collections/images/83/1.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120/format/webp">
-					<span class="name">简友圈</span>
-					<span class="count">100</span>
-				</li>
-				<li>
-					<img src="https://upload.jianshu.io/collections/images/83/1.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120/format/webp">
-					<span class="name">简友圈</span>
-					<span class="count">100</span>
-				</li>
-				<li>
-					<img src="https://upload.jianshu.io/collections/images/83/1.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120/format/webp">
-					<span class="name">简友圈</span>
-					<span class="count">100</span>
+				<li 
+				  :class="{'active': currentIndex == index}" 
+					v-for="(item, index) in navList" 
+					:key="index"
+					@click="changeRight(index, item)">
+					<img :src="item.pic_url">
+					<span class="name">{{item.name}}</span>
+					<span class="count">{{item.count}}</span>
 				</li>
 			</ul>
 		</div>
@@ -28,9 +22,9 @@
 				<img @click="toSpecialSubject" src="https://upload.jianshu.io/collections/images/83/1.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240/format/webp"
 				 alt="">
 				<div class="name">
-					<div class="name-theme" @click="toSpecialSubject">摄影</div>
+					<div class="name-theme" @click="toSpecialSubject">{{title}}</div>
 					<div class="name-info">
-						<span class="user">简书</span>编 · 收录了<span>143323</span>篇文章 · <span>2474143</span>人关注
+						<span class="user">简书</span>编 · 收录了<span>{{articleCount}}</span>篇文章 · <span>{{likeCount}}</span>人关注
 					</div>
 				</div>
 				<div class="btns">
@@ -41,15 +35,15 @@
 			<el-tabs v-model="activeName" @tab-click="handleClick">
 				<el-tab-pane label="最新收录" name="first">
 					<span slot="label"><i class="iconfont iconwenzhang2"></i> 最新收录</span>
-					<ArticleList/>
+					<ArticleList :list="list"/>
 				</el-tab-pane>
 				<el-tab-pane label="最新评论" name="second">
 					<span slot="label"><i class="iconfont iconpinglunzu"></i> 最新评论</span>
-					<ArticleList/>
+					<ArticleList :list="list"/>
 				</el-tab-pane>
 				<el-tab-pane label="热门" name="third">
 					<span slot="label"><i class="iconfont iconremen"></i> 热门</span>
-					<ArticleList/>
+					<ArticleList :list="list"/>
 				</el-tab-pane>
 			</el-tabs>
 		</div>
@@ -66,12 +60,65 @@
 		},
 		data() {
 			return {
-				activeName: 'first'
+				activeName: 'first',
+				navList: [],
+				currentIndex: 0,
+				list: [],
+				title: '摄影',
+				articleCount: 100,
+				likeCount: 1098760
 			}
 		},
+		mounted() {
+			this.getLeftList()
+			this.getArticleList({
+				page: 1,
+				count: 20
+			})
+		},
 		methods: {
+			getArticleList(obj) {
+				this.$axios.findList(obj).then(res => {
+					this.list = res.data.data
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			changeRight(index, item) {
+				this.currentIndex = index
+				this.title = item.name
+				this.articleCount = item.article_count
+				this.likeCount = item.like_count
+				
+				//console.log(item.id)
+				//切换右侧内容
+				this.getArticleList({
+					page: 1,
+					count: 20
+				})
+			},
+			getLeftList() {
+				this.$axios.attenList().then(res => {
+					//console.log(res.data)
+					const arr = res.data.subscriptions
+					
+					//es6数组去重（去除重复对象）
+					var hash = {};
+					this.navList = arr.reduce(function(item, next) {
+					    hash[next.name] ? '' : hash[next.name] = true && item.push(next);
+					    return item
+					}, [])
+					
+				}).catch(err => {
+					console.log(err)
+				})
+			},
 			handleClick(tab, event) {
-				console.log(tab, event);
+				//console.log(tab, event);
+				this.getArticleList({
+					page: 1,
+					count: 20
+				})
 			},
 			toSpecialSubject() {
 				this.$router.push({
